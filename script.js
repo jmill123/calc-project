@@ -23,7 +23,11 @@ screen.textContent = screen.textContent + " " + char;
 
 
 function clearDisplay() {
-screen.textContent = '';
+    screen.textContent = '';
+}
+
+function backspace() {
+    screen.textContent = screen.textContent.slice(0,-2);
 }
 
 //Initialize Vars and Selectors
