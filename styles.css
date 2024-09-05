@@ -1,0 +1,64 @@
+.calculator {
+    max-width: 100vw;
+    max-height: auto;
+    aspect-ratio: 3 / 4;
+    background-color: rgb(160, 160, 160);
+    display: flex;
+    flex-direction: column;
+    padding: 1%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.title {
+    align-self: center;
+    color: #ECDFCC;
+    font-size: 3vw;
+    background-color: #697565;
+    padding: .5% 2%;
+}
+
+.screen {
+    background-color: #1E201E;
+    color: #ECDFCC;
+    flex: 1;
+    margin: .5%;
+    text-align: right;
+    padding: 9% 4%;
+    font-size: 10vw;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    flex: 3;
+}
+
+.buttons > div {
+    display: flex;
+    align-items: stretch;
+    flex: 1;
+}
+
+.buttons > div > div {
+    margin: 2px;
+    background-color: #3C3D37;
+    color: #ECDFCC;
+    flex: 1;
+    text-align: center;
+    font-size: 8vw;
+    padding: 4% 0;
+    margin: .5%;
+}
+
+div div .operation {
+    background-color: #697565;
+}
+
+div div div.double {
+    flex: 2;
+    padding: 4% .5%;
+    background-color: #ECDFCC;
+    color: #3C3D37;
+}
+
