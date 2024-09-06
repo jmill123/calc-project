@@ -5,19 +5,52 @@ function operate() {
     if(currentOp === "+") {
         num3 = num1 + num2;
     }
-    else if(currentOp === "-") {
+    else if(currentOp === "−") {
         num3 = num1 - num2;
     }
-    else if(currentOp === "/") {
+    else if(currentOp === "÷") {
+        if(num2 == 0){
+            num3 = "Your Mom"; }
+        else {
         num3 = num1 / num2;
+        }
     }
-    else if(currentOp === "*") {
+    else if(currentOp === "×") {
         num3 = num1 * num2;
     }
     return num3;
 
 }
 
+function operationPush(op) {
+    if(num1 == undefined) {
+    }
+    else if (num1 !== undefined && currentOp === undefined) {
+        //add to screen and variable
+        addToDisplay(op);
+        currentOp = op;
+    }
+    else if (currentOp !== undefined && num2 === undefined) {
+        //change currentOP and update screen
+        currentOp = op;
+        screen.textContent = screen.textContent.slice(0,-2);
+        addToDisplay(op);
+    }
+    else if(num2 !== undefined) {
+        //eval and equal and add to screen
+        let num3 = operate()
+        if (typeof num3 === "number") {
+            screen.textContent = '';
+            addToDisplay(`${Math.floor(num3 * 1000)/1000} ${op}`);
+            num1 = num3;
+            num2 = undefined;
+        }
+        else { //only for divide by 0
+            screen.textContent = '';
+            addToDisplay(`= ${num3}`);
+        }
+    }
+}
 
 function addToDisplay(char) {
 screen.textContent = screen.textContent + " " + char;
@@ -122,24 +155,23 @@ num8.addEventListener("click", () => {addToDisplay("8");
 num9.addEventListener("click", () => {addToDisplay("9");
     updateNums(9);
 });
-// decimal.addEventListener("click", () => {addToDisplay(".");
-    
-// });
-divide.addEventListener("click", () => {addToDisplay("÷");
-    currentOp = "/";
-});
-multiply.addEventListener("click", () => {addToDisplay("×");
-    currentOp = "*";
-});
-add.addEventListener("click", () => {addToDisplay("+");
-    currentOp = "+";
-});
-subtract.addEventListener("click", () => {addToDisplay("−");
-    currentOp = "-";
-});
+
+// decimal.addEventListener("click", () => {addToDisplay(".");});
+
+divide.addEventListener("click", () => {operationPush("÷")});
+multiply.addEventListener("click", () => {operationPush("×")});
+add.addEventListener("click", () => {operationPush("+")});
+subtract.addEventListener("click", () => {operationPush("−")});
 AC.addEventListener("click", () => {clearDisplay()});
 CE.addEventListener("click", () => {backspace();});
 equals.addEventListener("click", () => {
+    if (num2 !== undefined) {
     let num3 = operate()
-    addToDisplay(`= ${Math.floor(num3 * 1000)/1000}`);
+    if (typeof num3 === "number") {
+        addToDisplay(`= ${Math.floor(num3 * 1000)/1000}`);
+    }
+    else {
+        addToDisplay(`= ${num3}`);
+    }
+}
 });
