@@ -35,23 +35,32 @@ function clearDisplay() {
 function backspace() {
     screen.textContent = screen.textContent.slice(0,-2);
 
-    if (num2 !== undefined) {
-        num1 = undefined;
-    }
-    else if (currentOp !== undefined) {
-        currentOp = undefined;
-    }
-    else if (num1 !== undefined) {
-        num2 = undefined;
+    if (currentOp !== undefined && num2 !== undefined) {
+        num2 = num2.toString().slice(0, -1);  // Remove last digit from num2
+        if (num2 === "") num2 = undefined;  // If empty, reset to undefined
+    } else if (currentOp !== undefined) {
+        currentOp = undefined;  // Remove operator if no num2 exists yet
+    } else if (num1 !== undefined) {
+        num1 = num1.toString().slice(0, -1);  // Remove last digit from num1
+        if (num1 === "") num1 = undefined;  // If empty, reset to undefined
     }
 }
 
 function updateNums(char) {
-    if (num1 === undefined) {
-        num1 = char;
-    }
-    else if (num2 === undefined) {
-        num2 = char;
+    if (currentOp === undefined) {
+        if (num1 === undefined) {
+            num1 = char.toString();
+        } else {
+            num1 += char.toString();
+        }
+        num1 = parseFloat(num1);
+    } else {
+        if (num2 === undefined) {
+            num2 = char.toString();
+        } else {
+            num2 += char.toString();
+        }
+        num2 = parseFloat(num2);
     }
 }
 
