@@ -3,7 +3,7 @@ function operate() {
     let num3;
 
     if(currentOp === "+") {
-        num3 = num1 + num2;
+        num3 = +num1 + +num2;
     }
     else if(currentOp === "−") {
         num3 = num1 - num2;
@@ -22,93 +22,63 @@ function operate() {
 
 }
 
-function operationPush(op) {
-    if(num1 == undefined) {
-    }
-    else if (num1 !== undefined && currentOp === undefined) {
-        //add to screen and variable
-        addToDisplay(op);
-        currentOp = op;
-    }
-    else if (currentOp !== undefined && num2 === undefined) {
-        //change currentOP and update screen
-        currentOp = op;
-        screen.textContent = screen.textContent.slice(0,-2);
-        addToDisplay(op);
-    }
-    else if(num2 !== undefined) {
-        //eval and equal and add to screen
-        let num3 = operate()
-        if (typeof num3 === "number") {
-            screen.textContent = '';
-            addToDisplay(`${Math.floor(num3 * 1000)/1000} ${op}`);
-            num1 = num3;
-            num2 = undefined;
-        }
-        else { //only for divide by 0
-            screen.textContent = '';
-            addToDisplay(`= ${num3}`);
-        }
-    }
-}
+function operationPress(op) {
+    currentOp = op;
+ }
 
-function addToDisplay(char) {
-screen.textContent = screen.textContent + " " + char;
+function updateDisplay(char) {
+screen.textContent = char;
 }
 
 
 function clearDisplay() {
-    screen.textContent = '';
-    num1 = undefined;
+    num1 = 0;
     num2 = undefined;
     currentOp = undefined;
+    equalsPressed = 0;
+    screen.textContent = num1;
 }
 
-// currently broken; doesn't delete num1, num2, clear
-function backspace() {
-    screen.textContent = screen.textContent.slice(0,-2);
+// // currently broken; doesn't delete num1, num2, clear
+// function backspace() {};
 
-    if (currentOp !== undefined && num2 !== undefined) {
-        num2 = num2.toString().slice(0, -1);  // Remove last digit from num2
-        if (num2 === "") num2 = undefined;  // If empty, reset to undefined
-    } else if (currentOp !== undefined) {
-        currentOp = undefined;  // Remove operator if no num2 exists yet
-    } else if (num1 !== undefined) {
-        num1 = num1.toString().slice(0, -1);  // Remove last digit from num1
-        if (num1 === "") num1 = undefined;  // If empty, reset to undefined
+function numberPress(num) {
+    if (equalsPressed === 1) {
+        num2 = undefined;
+        equalsPressed = 0;
     }
-}
 
-function updateNums(char) {
     if (currentOp === undefined) {
-        if (num1 === undefined) {
-            num1 = char.toString();
+        if (num1 === 0) {
+            num1 = num;
         } else {
-            num1 += char.toString();
+            num1 = `${num1}${num}`;
         }
-        num1 = parseFloat(num1);
-    } else {
-        if (num2 === undefined) {
-            num2 = char.toString();
+        updateDisplay(num1);
+    } else if (currentOp !== undefined) {
+        if (num2 === undefined || num2 === 0) {
+            num2 = num;
         } else {
-            num2 += char.toString();
+            num2 = `${num2}${num}`;
         }
-        num2 = parseFloat(num2);
+        updateDisplay(num2);
     }
-}
+};
 
 //RUNNING CODE
 
 //Initialize Vars and Selectors
 let num1;
 let num2;
+let num3;
 let currentOp;
+let equalsPressed = 0;
 
 const screen = document.querySelector(".screen");
 const num0 = document.querySelector(".num0");
 const num1_ = document.querySelector(".num1");
 const num2_ = document.querySelector(".num2");
-const num3 = document.querySelector(".num3");
+const num3_ = document.querySelector(".num3");
 const num4 = document.querySelector(".num4");
 const num5 = document.querySelector(".num5");
 const num6 = document.querySelector(".num6");
@@ -125,53 +95,39 @@ const equals = document.querySelector(".equals");
 const decimal = document.querySelector(".decimal");
 
 //Event Listeners
-num0.addEventListener("click", () => {addToDisplay("0");
-    updateNums(0);
+num0.addEventListener("click", () => {numberPress(0)
 });
-num1_.addEventListener("click", () => {addToDisplay("1");
-    updateNums(1);
+num1_.addEventListener("click", () => {numberPress(1);
 });
-num2_.addEventListener("click", () => {addToDisplay("2");
-    updateNums(2);
+num2_.addEventListener("click", () => {numberPress(2);
 });
-num3.addEventListener("click", () => {addToDisplay("3");
-    updateNums(3);
+num3_.addEventListener("click", () => {numberPress(3);
 });
-num4.addEventListener("click", () => {addToDisplay("4");
-    updateNums(4);
+num4.addEventListener("click", () => {numberPress(4);
 });
-num5.addEventListener("click", () => {addToDisplay("5");
-    updateNums(5);
+num5.addEventListener("click", () => {numberPress(5);
 });
-num6.addEventListener("click", () => {addToDisplay("6");
-    updateNums(6);
+num6.addEventListener("click", () => {numberPress(6);
 });
-num7.addEventListener("click", () => {addToDisplay("7");
-    updateNums(7);
+num7.addEventListener("click", () => {numberPress(7);
 });
-num8.addEventListener("click", () => {addToDisplay("8");
-    updateNums(8);
+num8.addEventListener("click", () => {numberPress(8);
 });
-num9.addEventListener("click", () => {addToDisplay("9");
-    updateNums(9);
+num9.addEventListener("click", () => {numberPress(9);
 });
 
 // decimal.addEventListener("click", () => {addToDisplay(".");});
 
-divide.addEventListener("click", () => {operationPush("÷")});
-multiply.addEventListener("click", () => {operationPush("×")});
-add.addEventListener("click", () => {operationPush("+")});
-subtract.addEventListener("click", () => {operationPush("−")});
+divide.addEventListener("click", () => {operationPress("÷")});
+multiply.addEventListener("click", () => {operationPress("×")});
+add.addEventListener("click", () => {operationPress("+")});
+subtract.addEventListener("click", () => {operationPress("−")});
 AC.addEventListener("click", () => {clearDisplay()});
 CE.addEventListener("click", () => {backspace();});
 equals.addEventListener("click", () => {
     if (num2 !== undefined) {
-    let num3 = operate()
-    if (typeof num3 === "number") {
-        addToDisplay(`= ${Math.floor(num3 * 1000)/1000}`);
+        num1 = operate();
+        updateDisplay(num1);
+        equalsPressed = 1;
     }
-    else {
-        addToDisplay(`= ${num3}`);
-    }
-}
 });
