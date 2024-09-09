@@ -2,28 +2,30 @@
 function operate() {
     let num3;
 
-    if(currentOp === "+") {
+    if(currentOp === "add") {
         num3 = +num1 + +num2;
     }
-    else if(currentOp === "−") {
+    else if(currentOp === "subtract") {
         num3 = num1 - num2;
     }
-    else if(currentOp === "÷") {
+    else if(currentOp === "divide") {
         if(num2 == 0){
             num3 = "Your Mom"; }
         else {
         num3 = num1 / num2;
         }
     }
-    else if(currentOp === "×") {
+    else if(currentOp === "multiply") {
         num3 = num1 * num2;
     }
     return num3;
 
 }
 
-function operationPress(op) {
-    currentOp = op;
+function operationPress(specifiedDiv, string) {
+    currentOp = string;
+    resetOpButtons();
+    specifiedDiv.style.backgroundColor = "#a7b3a3";
  }
 
 function updateDisplay(char) {
@@ -37,6 +39,7 @@ function clearDisplay() {
     currentOp = undefined;
     equalsPressed = 0;
     screen.textContent = num1;
+    resetOpButtons();
 }
 
 function resetOpButtons() {
@@ -46,8 +49,31 @@ function resetOpButtons() {
     subtract.style.backgroundColor = "#697565";
 }
 
-// // currently broken; doesn't delete num1, num2, clear
-// function backspace() {};
+function backspace() {
+    if (equalsPressed === 1) {
+        clearDisplay();
+    }
+    else if (num2 !== undefined) {
+        num2 = undefined;
+        updateDisplay(num1);
+
+        if(currentOp === "add") {
+            add.style.backgroundColor = "#a7b3a3";
+        }
+        else if(currentOp === "subtract") {
+            subtract.style.backgroundColor = "#a7b3a3";
+        }
+        else if(currentOp === "divide") {
+            divide.style.backgroundColor = "#a7b3a3";
+        }
+        else if(currentOp === "multiply") {
+            multiply.style.backgroundColor = "#a7b3a3";
+    }}
+    else if (num1 !== 0) {
+        num1 = 0;
+        updateDisplay = 0;
+    }
+};
 
 function numberPress(num) {
     resetOpButtons();
@@ -81,6 +107,7 @@ let num1 = 0;
 let num2;
 let num3;
 let currentOp;
+let currentOpDiv;
 let equalsPressed = 0;
 
 const screen = document.querySelector(".screen");
@@ -117,25 +144,24 @@ num6.addEventListener("click", () => {numberPress(6)});
 num7.addEventListener("click", () => {numberPress(7)});
 num8.addEventListener("click", () => {numberPress(8)});
 num9.addEventListener("click", () => {numberPress(9)});
+decimal.addEventListener("click", () => {numberPress(".")});
 
 //Keys
 
 
-// decimal.addEventListener("click", () => {addToDisplay(".");});
-
-divide.addEventListener("click", () => {operationPress("÷")
+divide.addEventListener("click", () => {operationPress(divide, "divide")
     resetOpButtons();
     divide.style.backgroundColor = "#a7b3a3";
 });
-multiply.addEventListener("click", () => {operationPress("×")
+multiply.addEventListener("click", () => {operationPress(multiply, "multiply")
     resetOpButtons();
     multiply.style.backgroundColor = "#a7b3a3";
 });
-add.addEventListener("click", () => {operationPress("+")
+add.addEventListener("click", () => {operationPress(add, "add")
     resetOpButtons();
     add.style.backgroundColor = "#a7b3a3";
 });
-subtract.addEventListener("click", () => {operationPress("−")
+subtract.addEventListener("click", () => {operationPress(subtract, "subtract")
     resetOpButtons();
     subtract.style.backgroundColor = "#a7b3a3";
 });
@@ -152,4 +178,4 @@ equals.addEventListener("click", () => {
         };
         equalsPressed = 1;
     }
-});
+})
