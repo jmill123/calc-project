@@ -48,14 +48,14 @@ function numberPress(num) {
         equalsPressed = 0;
     }
 
-    if (currentOp === undefined) {
+    if (currentOp === undefined && num1?.toString().length <= 12) {
         if (num1 === 0) {
             num1 = num;
         } else {
             num1 = `${num1}${num}`;
         }
         updateDisplay(num1);
-    } else if (currentOp !== undefined) {
+    } else if (currentOp !== undefined && (num2?.toString().length || 0) <= 12) {
         if (num2 === undefined || num2 === 0) {
             num2 = num;
         } else {
