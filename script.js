@@ -26,6 +26,7 @@ function operationPress(specifiedDiv, string) {
     currentOp = string;
     resetOpButtons();
     specifiedDiv.style.backgroundColor = "#a7b3a3";
+    equals.style.backgroundColor = "#ECDFCC";
  }
 
 function updateDisplay(char) {
@@ -40,6 +41,7 @@ function clearDisplay() {
     equalsPressed = 0;
     screen.textContent = num1;
     resetOpButtons();
+    equals.style.backgroundColor = "#ECDFCC";
 }
 
 function resetOpButtons() {
@@ -77,6 +79,7 @@ function backspace() {
 
 function numberPress(num) {
     resetOpButtons();
+    equals.style.backgroundColor = "#ECDFCC";
 
     if (equalsPressed === 1) {
         num2 = undefined;
@@ -99,6 +102,14 @@ function numberPress(num) {
         updateDisplay(num2);
     }
 };
+
+function buttonReact(button) {
+    button.style.backgroundColor = "#6f7067";
+
+    setTimeout(() => {
+        button.style.backgroundColor = "#3C3D37";
+      }, 75);
+}
 
 //RUNNING CODE
 
@@ -134,17 +145,39 @@ screen.textContent = num1; // put 0 on screen at startup
 
 //EVENT LISTENERS
 //Screen
-num0.addEventListener("click", () => {numberPress(0)});
-num1_.addEventListener("click", () => {numberPress(1)});
-num2_.addEventListener("click", () => {numberPress(2)});
-num3_.addEventListener("click", () => {numberPress(3)});
-num4.addEventListener("click", () => {numberPress(4)});
-num5.addEventListener("click", () => {numberPress(5)});
-num6.addEventListener("click", () => {numberPress(6)});
-num7.addEventListener("click", () => {numberPress(7)});
-num8.addEventListener("click", () => {numberPress(8)});
-num9.addEventListener("click", () => {numberPress(9)});
-decimal.addEventListener("click", () => {numberPress(".")});
+num0.addEventListener("click", () => {numberPress(0)
+    buttonReact(num0);
+});
+num1_.addEventListener("click", () => {numberPress(1)
+    buttonReact(num1_);
+});
+num2_.addEventListener("click", () => {numberPress(2)
+    buttonReact(num2_);
+});
+num3_.addEventListener("click", () => {numberPress(3)
+    buttonReact(num3_);
+});
+num4.addEventListener("click", () => {numberPress(4)
+    buttonReact(num4);
+});
+num5.addEventListener("click", () => {numberPress(5)
+    buttonReact(num5);
+});
+num6.addEventListener("click", () => {numberPress(6)
+    buttonReact(num6);
+});
+num7.addEventListener("click", () => {numberPress(7)
+    buttonReact(num7);
+});
+num8.addEventListener("click", () => {numberPress(8)
+    buttonReact(num8);
+});
+num9.addEventListener("click", () => {numberPress(9)
+    buttonReact(num9);
+});
+decimal.addEventListener("click", () => {numberPress(".")
+    buttonReact(decimal);
+});
 
 //Keys
 
@@ -165,8 +198,12 @@ subtract.addEventListener("click", () => {operationPress(subtract, "subtract")
     resetOpButtons();
     subtract.style.backgroundColor = "#a7b3a3";
 });
-AC.addEventListener("click", () => {clearDisplay()});
-CE.addEventListener("click", () => {backspace();});
+AC.addEventListener("click", () => {clearDisplay()
+    buttonReact(AC);
+});
+CE.addEventListener("click", () => {backspace()
+    buttonReact(CE);
+});
 equals.addEventListener("click", () => {
     if (num2 !== undefined) {
         num1 = operate();
@@ -177,5 +214,6 @@ equals.addEventListener("click", () => {
             updateDisplay(num1.toExponential(7));
         };
         equalsPressed = 1;
+        equals.style.backgroundColor = "#918a7e";
     }
 })
