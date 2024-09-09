@@ -23,15 +23,21 @@ function operate() {
 }
 
 function operationPress(specifiedDiv, string) {
+    if (num2 !== undefined) {
+        num1 = operate();
+        num2 = undefined;
+        screen.textContent = num1;
+    }
+    
     currentOp = string;
     resetOpButtons();
     specifiedDiv.style.backgroundColor = "#a7b3a3";
     equals.style.backgroundColor = "#ECDFCC";
- }
+ };
 
 function updateDisplay(char) {
 screen.textContent = char;
-}
+};
 
 
 function clearDisplay() {
