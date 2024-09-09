@@ -96,14 +96,20 @@ function numberPress(num) {
         if (num1 === 0) {
             num1 = num;
         } else {
-            num1 = `${num1}${num}`;
+            if (num1.toString().includes(".") && num === ".") {
+            } else {
+                num1 = `${num1}${num}`;
+            }
         }
         updateDisplay(num1);
     } else if (currentOp !== undefined && (num2?.toString().length || 0) <= 12) {
         if (num2 === undefined || num2 === 0) {
             num2 = num;
         } else {
+            if (num2.toString().includes(".") && num === ".") {
+            } else {
             num2 = `${num2}${num}`;
+            }
         }
         updateDisplay(num2);
     }
