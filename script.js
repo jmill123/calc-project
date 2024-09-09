@@ -39,10 +39,19 @@ function clearDisplay() {
     screen.textContent = num1;
 }
 
+function resetOpButtons() {
+    divide.style.backgroundColor = "#697565";
+    multiply.style.backgroundColor = "#697565";
+    add.style.backgroundColor = "#697565";
+    subtract.style.backgroundColor = "#697565";
+}
+
 // // currently broken; doesn't delete num1, num2, clear
 // function backspace() {};
 
 function numberPress(num) {
+    resetOpButtons();
+
     if (equalsPressed === 1) {
         num2 = undefined;
         equalsPressed = 0;
@@ -68,7 +77,7 @@ function numberPress(num) {
 //RUNNING CODE
 
 //Initialize Vars and Selectors
-let num1;
+let num1 = 0;
 let num2;
 let num3;
 let currentOp;
@@ -94,40 +103,53 @@ const subtract = document.querySelector(".subtract");
 const equals = document.querySelector(".equals");
 const decimal = document.querySelector(".decimal");
 
-//Event Listeners
-num0.addEventListener("click", () => {numberPress(0)
-});
-num1_.addEventListener("click", () => {numberPress(1);
-});
-num2_.addEventListener("click", () => {numberPress(2);
-});
-num3_.addEventListener("click", () => {numberPress(3);
-});
-num4.addEventListener("click", () => {numberPress(4);
-});
-num5.addEventListener("click", () => {numberPress(5);
-});
-num6.addEventListener("click", () => {numberPress(6);
-});
-num7.addEventListener("click", () => {numberPress(7);
-});
-num8.addEventListener("click", () => {numberPress(8);
-});
-num9.addEventListener("click", () => {numberPress(9);
-});
+screen.textContent = num1; // put 0 on screen at startup
+
+//EVENT LISTENERS
+//Screen
+num0.addEventListener("click", () => {numberPress(0)});
+num1_.addEventListener("click", () => {numberPress(1)});
+num2_.addEventListener("click", () => {numberPress(2)});
+num3_.addEventListener("click", () => {numberPress(3)});
+num4.addEventListener("click", () => {numberPress(4)});
+num5.addEventListener("click", () => {numberPress(5)});
+num6.addEventListener("click", () => {numberPress(6)});
+num7.addEventListener("click", () => {numberPress(7)});
+num8.addEventListener("click", () => {numberPress(8)});
+num9.addEventListener("click", () => {numberPress(9)});
+
+//Keys
+
 
 // decimal.addEventListener("click", () => {addToDisplay(".");});
 
-divide.addEventListener("click", () => {operationPress("÷")});
-multiply.addEventListener("click", () => {operationPress("×")});
-add.addEventListener("click", () => {operationPress("+")});
-subtract.addEventListener("click", () => {operationPress("−")});
+divide.addEventListener("click", () => {operationPress("÷")
+    resetOpButtons();
+    divide.style.backgroundColor = "#a7b3a3";
+});
+multiply.addEventListener("click", () => {operationPress("×")
+    resetOpButtons();
+    multiply.style.backgroundColor = "#a7b3a3";
+});
+add.addEventListener("click", () => {operationPress("+")
+    resetOpButtons();
+    add.style.backgroundColor = "#a7b3a3";
+});
+subtract.addEventListener("click", () => {operationPress("−")
+    resetOpButtons();
+    subtract.style.backgroundColor = "#a7b3a3";
+});
 AC.addEventListener("click", () => {clearDisplay()});
 CE.addEventListener("click", () => {backspace();});
 equals.addEventListener("click", () => {
     if (num2 !== undefined) {
         num1 = operate();
-        updateDisplay(num1);
+        if (num1.toString().length <= 13) {
+            updateDisplay(num1);
+        }
+        else {
+            updateDisplay(num1.toExponential(7));
+        };
         equalsPressed = 1;
     }
 });
