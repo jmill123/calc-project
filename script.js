@@ -10,7 +10,7 @@ function operate() {
     }
     else if(currentOp === "divide") {
         if(num2 == 0){
-            num3 = "Your Mom"; }
+            num3 = "UR MOM"; }
         else {
         num3 = num1 / num2;
         }
@@ -79,7 +79,9 @@ function backspace() {
     }}
     else if (num1 !== 0) {
         num1 = 0;
-        updateDisplay = 0;
+        updateDisplay(0);
+        resetOpButtons();
+        currentOp = undefined;
     }
 };
 
@@ -128,7 +130,6 @@ function buttonReact(button) {
 //Initialize Vars and Selectors
 let num1 = 0;
 let num2;
-let num3;
 let currentOp;
 let currentOpDiv;
 let equalsPressed = 0;
@@ -145,7 +146,7 @@ const num7 = document.querySelector(".num7");
 const num8 = document.querySelector(".num8");
 const num9 = document.querySelector(".num9");
 const AC = document.querySelector(".AC");
-const CE = document.querySelector(".CE");
+const C = document.querySelector(".C");
 const divide = document.querySelector(".divide");
 const multiply = document.querySelector(".multiply");
 const add = document.querySelector(".add");
@@ -156,7 +157,7 @@ const decimal = document.querySelector(".decimal");
 screen.textContent = num1; // put 0 on screen at startup
 
 //EVENT LISTENERS
-//Screen
+//numbers
 num0.addEventListener("click", () => {numberPress(0)
     buttonReact(num0);
 });
@@ -187,37 +188,35 @@ num8.addEventListener("click", () => {numberPress(8)
 num9.addEventListener("click", () => {numberPress(9)
     buttonReact(num9);
 });
+
+//other
 decimal.addEventListener("click", () => {numberPress(".")
     buttonReact(decimal);
 });
-
-//Keys
-
-
-divide.addEventListener("click", () => {operationPress(divide, "divide")
-    resetOpButtons();
-    divide.style.backgroundColor = "#a7b3a3";
-});
-multiply.addEventListener("click", () => {operationPress(multiply, "multiply")
-    resetOpButtons();
-    multiply.style.backgroundColor = "#a7b3a3";
-});
-add.addEventListener("click", () => {operationPress(add, "add")
-    resetOpButtons();
-    add.style.backgroundColor = "#a7b3a3";
-});
-subtract.addEventListener("click", () => {operationPress(subtract, "subtract")
-    resetOpButtons();
-    subtract.style.backgroundColor = "#a7b3a3";
-});
+divide.addEventListener("click", () => {operationPress(divide, "divide")});
+multiply.addEventListener("click", () => {operationPress(multiply, "multiply")});
+add.addEventListener("click", () => {operationPress(add, "add")});
+subtract.addEventListener("click", () => {operationPress(subtract, "subtract")});
 AC.addEventListener("click", () => {clearDisplay()
     buttonReact(AC);
 });
-CE.addEventListener("click", () => {backspace()
-    buttonReact(CE);
+C.addEventListener("click", () => {backspace()
+    buttonReact(C);
 });
 equals.addEventListener("click", () => {
     if (num2 !== undefined) {
+        num1 = operate();
+        if (num1.toString().length <= 13) {
+            updateDisplay(num1);
+        }
+        else {
+            updateDisplay(num1.toExponential(7));
+        };
+        equalsPressed = 1;
+        equals.style.backgroundColor = "#918a7e";
+    }
+    else if(num2 === undefined && currentOp !== undefined) {
+        num2 = num1;
         num1 = operate();
         if (num1.toString().length <= 13) {
             updateDisplay(num1);
