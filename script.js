@@ -23,10 +23,15 @@ function operate() {
 }
 
 function operationPress(specifiedDiv, string) {
-    if (num2 !== undefined) {
+    if (num2 !== undefined && equalsPressed !== 1) {
         num1 = operate();
         num2 = undefined;
-        screen.textContent = num1;
+        if (num1.toString().length <= 13) {
+            updateDisplay(num1);
+        }
+        else {
+            updateDisplay(num1.toExponential(7));
+        };
     }
     
     currentOp = string;
